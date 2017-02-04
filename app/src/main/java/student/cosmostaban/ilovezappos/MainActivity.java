@@ -7,12 +7,16 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
 import retrofit2.Call;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+
 import java.io.IOException;
+
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -28,14 +32,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final ActivityMainBinding mainActivityBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        final ActivityMainBinding mainActivityBinding = DataBindingUtil
+                .setContentView(this, R.layout.activity_main);
 
         //Check network/wifi for data processing
         if (isNetworkAvailable()) {
-            Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+            Gson gson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .create();
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(IService.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(gson))
@@ -47,32 +54,21 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call<Results> call, Response<Results> response) {
-
                     try {
                         if (response.isSuccessful()) {
                             Results results = response.body();
                             //mainActivityBinding.setProducts(results.returnProducts().get(0));
                             for (int p = 0; p < results.returnProducts().size(); p++) {
                                 mainActivityBinding.setProducts(results.returnProducts().get(p));
-
-                                System.out.print(
-                                        "\nProductId " + results.returnProducts().get(p).getProductId()
+                                System.out.print("\nProductId " + results.returnProducts().get(p).getProductId()
                                                 + "\nBrand Name " + results.returnProducts().get(p).getBrandName()
-                                                         + "\nOriginalPrice " + results.returnProducts().get(p).getOriginalPrice()
-                                        + "\nProductName " + results.returnProducts().get(p).getProductName()
-                                        + "\nThumbnailImageUrl " + results.returnProducts().get(p).getThumbnailImageUrl());
-
-//                                Log.v(MainActivity.class.getSimpleName(),  + "" + p);
-//                                Log.v(MainActivity.class.getSimpleName(), ;
-//                                Log.v(MainActivity.class.getSimpleName(), );
-//                                Log.v(MainActivity.class.getSimpleName(), );
-//                                Log.v(MainActivity.class.getSimpleName(), );
+                                                + "\nOriginalPrice " + results.returnProducts().get(p).getOriginalPrice()
+                                                + "\nProductName " + results.returnProducts().get(p).getProductName()
+                                                + "\nThumbnailImageUrl " + results.returnProducts().get(p).getThumbnailImageUrl());
                             }
                         }
 
-                    } catch (JsonIOException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (JsonIOException e) e.printStackTrace();
                 }
 
                 @Override
@@ -87,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Check if device has network
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
@@ -95,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         return isAvailable;
     }
 
+    //Display error
     private void alertAboutERROR() {
         DialogAlert alertFrag = new DialogAlert();
         alertFrag.show(getFragmentManager(), "error_dial");
