@@ -1,7 +1,9 @@
-package student.cosmostaban.ilovezappos;
+package student.cosmostaban.ilovezappos.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import student.cosmostaban.ilovezappos.R;
 
 public class DetailActivity extends AppCompatActivity {
 

@@ -3,6 +3,7 @@ package student.cosmostaban.ilovezappos.Service;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
+import student.cosmostaban.ilovezappos.Models.Results;
 
 /**
  * Created by cosmostaban on 2/3/17.

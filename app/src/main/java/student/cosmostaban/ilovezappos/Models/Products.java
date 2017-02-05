@@ -1,4 +1,4 @@
-package student.cosmostaban.ilovezappos.Service;
+package student.cosmostaban.ilovezappos.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="5dp"
-        tools:context=".MainActivity">
+        tools:context=".Activities.MainActivity">
 
 
         <ImageView

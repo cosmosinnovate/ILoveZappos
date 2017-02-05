@@ -1,4 +1,4 @@
-package student.cosmostaban.ilovezappos;
+package student.cosmostaban.ilovezappos.Activities;
 
 /**
  * Created by cosmost on 2/3/17.
@@ -9,6 +9,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import student.cosmostaban.ilovezappos.R;
 
 public class DialogAlert extends DialogFragment {
 

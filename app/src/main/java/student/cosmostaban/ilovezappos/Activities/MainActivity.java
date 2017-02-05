@@ -1,4 +1,4 @@
-package student.cosmostaban.ilovezappos;
+package student.cosmostaban.ilovezappos.Activities;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
@@ -21,8 +21,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import student.cosmostaban.ilovezappos.R;
 import student.cosmostaban.ilovezappos.Service.IService;
-import student.cosmostaban.ilovezappos.Service.Results;
+import student.cosmostaban.ilovezappos.Models.Results;
 import student.cosmostaban.ilovezappos.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
