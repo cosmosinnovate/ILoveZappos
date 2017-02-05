@@ -26,20 +26,24 @@ import student.cosmostaban.ilovezappos.Service.IService;
 import student.cosmostaban.ilovezappos.Models.Results;
 import student.cosmostaban.ilovezappos.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
-    public MainActivity() throws IOException {
+    public MainActivity() throws IOException
+    {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final ActivityMainBinding mainActivityBinding = DataBindingUtil
                 .setContentView(this, R.layout.activity_main);
 
         //Check network/wifi for data processing
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable())
+        {
             Gson gson = new GsonBuilder()
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     .create();
@@ -51,41 +55,47 @@ public class MainActivity extends AppCompatActivity {
 
             IService service = retrofit.create(IService.class);
             Call<Results> call = service.productList("nike", IService.API_KEY);
-            call.enqueue(new Callback<Results>() {
+            call.enqueue(new Callback<Results>()
+            {
 
                 @Override
-                public void onResponse(Call<Results> call, Response<Results> response) {
-                    try {
-                        if (response.isSuccessful()) {
-                            Results results = response.body();
+                public void onResponse(Call<Results> call, Response<Results> response)
+                {
+                    try
+                    {
+                        if (response.isSuccessful())
+                        {
+                            Results responseData = response.body();
+                            int results = response.body().returnProducts().size();
                             //mainActivityBinding.setProducts(results.returnProducts().get(0));
-                            for (int p = 0; p < results.returnProducts().size(); p++) {
-                                mainActivityBinding.setProducts(results.returnProducts().get(p));
-                                System.out.print("\nProductId " + results.returnProducts().get(p).getProductId()
-                                                + "\nBrand Name " + results.returnProducts().get(p).getBrandName()
-                                                + "\nOriginalPrice " + results.returnProducts().get(p).getOriginalPrice()
-                                                + "\nProductName " + results.returnProducts().get(p).getProductName()
-                                                + "\nThumbnailImageUrl " + results.returnProducts().get(p).getThumbnailImageUrl());
+                            for (int p = 0; p < results; p++)
+                            {
+                                System.out.print(responseData.returnProducts().get(p));
                             }
                         }
 
-                    } catch (JsonIOException e) e.printStackTrace();
+                    } catch (JsonIOException e)
+                    {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
-                public void onFailure(Call<Results> call, Throwable t) {
+                public void onFailure(Call<Results> call, Throwable t)
+                {
                     Log.v(MainActivity.class.getSimpleName(), "Test" + t.getMessage());
                 }
             });
 
-        } else {
-            //Toast.makeText(this, "Network unavailable", Toast.LENGTH_LONG).show();
+        } else
+        {
             alertAboutERROR();
         }
     }
 
     //Check if device has network
-    private boolean isNetworkAvailable() {
+    private boolean isNetworkAvailable()
+    {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
@@ -94,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Display error
-    private void alertAboutERROR() {
+    private void alertAboutERROR()
+    {
         DialogAlert alertFrag = new DialogAlert();
         alertFrag.show(getFragmentManager(), "error_dial");
     }

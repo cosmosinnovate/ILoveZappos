@@ -9,7 +9,8 @@ import java.util.ArrayList;
  * Created by cosmost on 2/3/17.
  */
 
-public class Products {
+public class Products
+{
     //Products variable:
     @SerializedName("brandName")
     @Expose
@@ -51,55 +52,64 @@ public class Products {
     @Expose
     private String productName;
 
-    public String getBrandName() {
+    public String getBrandName()
+    {
         return this.brandName;
     }
 
 
-    public String getThumbnailImageUrl() {
+    public String getThumbnailImageUrl()
+    {
         return this.thumbnailImageUrl;
     }
 
 
-    public String getProductId() {
+    public String getProductId()
+    {
         return this.productId;
     }
 
 
-    public String getOriginalPrice() {
+    public String getOriginalPrice()
+    {
         return this.originalPrice;
     }
 
 
-    public String getStyleId() {
+    public String getStyleId()
+    {
         return this.styleId;
     }
 
 
-    public String getColorId() {
+    public String getColorId()
+    {
         return this.colorId;
     }
 
 
-    public String getPrice() {
+    public String getPrice()
+    {
         return this.price;
     }
 
 
-    public String getPercentOff() {
+    public String getPercentOff()
+    {
         return this.percentOff;
     }
 
 
-    public String getProductUrl() {
+    public String getProductUrl()
+    {
         return this.productUrl;
     }
 
 
-    public String getProductName() {
+    public String getProductName()
+    {
         return this.productName;
     }
-
 
 
 }

@@ -12,10 +12,11 @@ import android.os.Bundle;
 
 import student.cosmostaban.ilovezappos.R;
 
-public class DialogAlert extends DialogFragment {
-
+public class DialogAlert extends DialogFragment
+{
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public Dialog onCreateDialog(Bundle savedInstanceState)
+    {
         Context context = getActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.error_title)
