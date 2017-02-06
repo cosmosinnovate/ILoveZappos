@@ -43,64 +43,64 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         //final ActivityMainBinding mainActivityBinding = DataBindingUtil
         setContentView(R.layout.activity_main);
-        getData();
+
+        //Check network/wifi for data processing
+        if (isNetworkAvailable())
+        {
+            getData();
+        } else
+        {
+            alertAboutERROR();
+        }
         //final ActivityMainBinding mainActivityBinding
     }
 
     private void getData()
     {
-        //Check network/wifi for data processing
-        if (isNetworkAvailable())
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IService.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        IService service = retrofit.create(IService.class);
+        Call<Results> call = service.productList("nike", IService.API_KEY);
+        call.enqueue(new Callback<Results>()
         {
-            Gson gson = new GsonBuilder()
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .create();
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(IService.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-
-            IService service = retrofit.create(IService.class);
-            Call<Results> call = service.productList("nike", IService.API_KEY);
-            call.enqueue(new Callback<Results>()
+            @Override
+            public void onResponse(Call<Results> call, Response<Results> response)
             {
-
-                @Override
-                public void onResponse(Call<Results> call, Response<Results> response)
+                try
                 {
-                    try
+                    if (response.isSuccessful())
                     {
-                        if (response.isSuccessful())
-                        {
-                            Results responseData = response.body();
-                            //int results = response.body().returnProducts().size();
-                            linearLayoutManager = new LinearLayoutManager(MainActivity.this);
-                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-                            recyclerView.setLayoutManager(linearLayoutManager);
-                            AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData, MainActivity.this);
-                            recyclerView.setAdapter(adapterRecyclerView);
-                            //mainActivityBinding.setProducts(responseData.returnProducts().get(p));
-                            //System.out.print(responseData.returnProducts().get(p));
-                        }
-
-                    } catch (JsonIOException e)
-                    {
-                        e.printStackTrace();
+                        Results responseData = response.body();
+                        //int results = response.body().returnProducts().size();
+                        linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+                        recyclerView.setLayoutManager(linearLayoutManager);
+                        AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData, MainActivity.this);
+                        recyclerView.setAdapter(adapterRecyclerView);
+                        //mainActivityBinding.setProducts(responseData.returnProducts().get(p));
+                        //System.out.print(responseData.returnProducts().get(p));
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Results> call, Throwable t)
+                } catch (JsonIOException e)
                 {
-                    Log.v(MainActivity.class.getSimpleName(), "Test" + t.getMessage());
+                    e.printStackTrace();
                 }
-            });
+            }
 
-        } else
-        {
-            alertAboutERROR();
-        }
+            @Override
+            public void onFailure(Call<Results> call, Throwable t)
+            {
+                Log.v(MainActivity.class.getSimpleName(), "Test" + t.getMessage());
+            }
+        });
     }
 
     //Check if device has network
