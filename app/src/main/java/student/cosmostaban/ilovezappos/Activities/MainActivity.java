@@ -1,11 +1,12 @@
 package student.cosmostaban.ilovezappos.Activities;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import retrofit2.Call;
@@ -21,13 +22,16 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import student.cosmostaban.ilovezappos.Adapter.AdapterRecyclerView;
 import student.cosmostaban.ilovezappos.R;
 import student.cosmostaban.ilovezappos.Service.IService;
 import student.cosmostaban.ilovezappos.Models.Results;
-import student.cosmostaban.ilovezappos.databinding.ActivityMainBinding;
+//import student.cosmostaban.ilovezappos.databinding.ActivityMainBinding;
+//import android.databinding.DataBindingUtil;
 
 public class MainActivity extends AppCompatActivity
 {
+    LinearLayoutManager linearLayoutManager;
 
     public MainActivity() throws IOException
     {
@@ -37,10 +41,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        //final ActivityMainBinding mainActivityBinding = DataBindingUtil
         setContentView(R.layout.activity_main);
-        final ActivityMainBinding mainActivityBinding = DataBindingUtil
-                .setContentView(this, R.layout.activity_main);
+        getData();
+        //final ActivityMainBinding mainActivityBinding
+    }
 
+    private void getData()
+    {
         //Check network/wifi for data processing
         if (isNetworkAvailable())
         {
@@ -66,12 +74,14 @@ public class MainActivity extends AppCompatActivity
                         if (response.isSuccessful())
                         {
                             Results responseData = response.body();
-                            int results = response.body().returnProducts().size();
-                            //mainActivityBinding.setProducts(results.returnProducts().get(0));
-                            for (int p = 0; p < results; p++)
-                            {
-                                System.out.print(responseData.returnProducts().get(p));
-                            }
+                            //int results = response.body().returnProducts().size();
+                            linearLayoutManager = new LinearLayoutManager(MainActivity.this);
+                            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
+                            recyclerView.setLayoutManager(linearLayoutManager);
+                            AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData);
+                            recyclerView.setAdapter(adapterRecyclerView);
+                            //mainActivityBinding.setProducts(responseData.returnProducts().get(p));
+                            //System.out.print(responseData.returnProducts().get(p));
                         }
 
                     } catch (JsonIOException e)

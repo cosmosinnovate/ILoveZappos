@@ -10,10 +10,19 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="name"
+        android:text="Product Name"
         android:textSize="20sp"
         />
 
+    <TextView
+        android:id="@+id/brandName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="Brand Name"
+        android:textSize="20sp"
+        />
 
     <TextView
         android:id="@+id/hobby"
@@ -21,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="hobby"
+        android:text="Product Price:"
         android:textSize="20sp"
         />
 

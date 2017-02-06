@@ -6,7 +6,9 @@ import retrofit2.http.Query;
 import student.cosmostaban.ilovezappos.Models.Results;
 
 /**
- * Created by cosmostaban on 2/3/17.
+ *
+ * Created by cosmos on 2/3/17.
+ *
  */
 
 public interface IService
