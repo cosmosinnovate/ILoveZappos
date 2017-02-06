@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
                             linearLayoutManager = new LinearLayoutManager(MainActivity.this);
                             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
                             recyclerView.setLayoutManager(linearLayoutManager);
-                            AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData);
+                            AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData, MainActivity.this);
                             recyclerView.setAdapter(adapterRecyclerView);
                             //mainActivityBinding.setProducts(responseData.returnProducts().get(p));
                             //System.out.print(responseData.returnProducts().get(p));
