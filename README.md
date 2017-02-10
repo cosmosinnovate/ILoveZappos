@@ -19,3 +19,7 @@
 # Preview 2
 
 ![alt tag](https://github.com/Cosmos-it/ILoveZappos/blob/master/images/sc2.png)
+
+# Preview 3
+
+![alt tag](https://github.com/Cosmos-it/ILoveZappos/blob/master/images/sc3.png)
