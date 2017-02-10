@@ -1,13 +1,21 @@
 package student.cosmostaban.ilovezappos.Activities;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import retrofit2.Call;
 
@@ -29,16 +37,82 @@ import student.cosmostaban.ilovezappos.Models.Results;
 public class MainActivity extends AppCompatActivity
 {
 
-    RecyclerView binding;
+    private RecyclerView binding;
+    private FloatingActionButton fab;
+    String searchView;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Floating action button
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v)
+            {
+                FloatActionAnim alertFrag = new FloatActionAnim();
+                alertFrag.show(getFragmentManager(), "display");            }
+        });
 
         Init();//Start data upload and network connection
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+
+        getMenuInflater().inflate(R.menu.main_menu_view, menu);
+        this.menu = menu;
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+
+            SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+            SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+            search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
+
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                @Override
+                public boolean onQueryTextSubmit(String query)
+                {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String search) {
+                    searchView = search;
+
+                    if (isNetworkAvailable()) // Check for internet
+                    {
+                        getData(searchView); //Use this later with searching data
+                    } else
+                    {
+                        alertAboutERROR();
+                    }
+                    return true;
+                }
+            });
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_search)
+        {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void Init()
@@ -49,7 +123,7 @@ public class MainActivity extends AppCompatActivity
 
         if (isNetworkAvailable()) // Check for internet
         {
-            getData("puma"); //Use this later with searching data
+            getData(searchView); //Use this later with searching data
         } else
         {
             alertAboutERROR();

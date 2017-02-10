@@ -26,8 +26,6 @@ import student.cosmostaban.ilovezappos.ViewHolder.ViewRecycler;
 import static com.android.databinding.library.baseAdapters.BR._all;
 
 
-//Try with Observer views to make the data display
-
 public class AdapterRecyclerView extends RecyclerView.Adapter<ViewRecycler>
 {
 
