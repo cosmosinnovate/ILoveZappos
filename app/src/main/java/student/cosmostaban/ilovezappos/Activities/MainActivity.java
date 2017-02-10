@@ -1,12 +1,15 @@
 package student.cosmostaban.ilovezappos.Activities;
 
+/**
+ * Created by cosmos on 2/3/17.
+ */
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +39,6 @@ import student.cosmostaban.ilovezappos.Models.Results;
 
 public class MainActivity extends AppCompatActivity
 {
-
     private RecyclerView binding;
     private FloatingActionButton fab;
     String searchView;
@@ -49,18 +51,21 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         //Floating action button
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
+        fab.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
             public void onClick(View v)
             {
                 FloatActionAnim alertFrag = new FloatActionAnim();
-                alertFrag.show(getFragmentManager(), "display");            }
+                alertFrag.show(getFragmentManager(), "display");
+            }
         });
 
         Init();//Start data upload and network connection
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -68,16 +73,14 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main_menu_view, menu);
         this.menu = menu;
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+        {
 
             SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
             SearchView search = (SearchView) menu.findItem(R.id.action_search).getActionView();
-
             search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
-
-            search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
+            search.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+            {
                 @Override
                 public boolean onQueryTextSubmit(String query)
                 {
@@ -85,7 +88,8 @@ public class MainActivity extends AppCompatActivity
                 }
 
                 @Override
-                public boolean onQueryTextChange(String search) {
+                public boolean onQueryTextChange(String search)
+                {
                     searchView = search;
 
                     if (isNetworkAvailable()) // Check for internet
@@ -107,11 +111,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item)
     {
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search)
-        {
-            return true;
-        }
+        if (id == R.id.action_search) return true;
         return super.onOptionsItemSelected(item);
     }
 
@@ -122,12 +122,9 @@ public class MainActivity extends AppCompatActivity
         Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
 
         if (isNetworkAvailable()) // Check for internet
-        {
             getData(searchView); //Use this later with searching data
-        } else
-        {
+        else
             alertAboutERROR();
-        }
     }
 
     private void getData(String search)

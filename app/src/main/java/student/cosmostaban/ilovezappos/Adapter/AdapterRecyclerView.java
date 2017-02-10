@@ -6,24 +6,15 @@ package student.cosmostaban.ilovezappos.Adapter;
  *
  */
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import student.cosmostaban.ilovezappos.BR;
-import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-
 import student.cosmostaban.ilovezappos.Models.Products;
 import student.cosmostaban.ilovezappos.Models.Results;
 import student.cosmostaban.ilovezappos.R;
 import student.cosmostaban.ilovezappos.ViewHolder.ViewRecycler;
-
-import static com.android.databinding.library.baseAdapters.BR._all;
 
 
 public class AdapterRecyclerView extends RecyclerView.Adapter<ViewRecycler>
