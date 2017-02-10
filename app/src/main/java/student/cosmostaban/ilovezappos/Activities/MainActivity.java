@@ -15,8 +15,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-
-import java.io.IOException;
+import com.squareup.picasso.Picasso;
 
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,36 +25,38 @@ import student.cosmostaban.ilovezappos.Adapter.AdapterRecyclerView;
 import student.cosmostaban.ilovezappos.R;
 import student.cosmostaban.ilovezappos.Service.IService;
 import student.cosmostaban.ilovezappos.Models.Results;
-//import student.cosmostaban.ilovezappos.databinding.ActivityMainBinding;
-//import android.databinding.DataBindingUtil;
 
 public class MainActivity extends AppCompatActivity
 {
-    LinearLayoutManager linearLayoutManager;
 
-    public MainActivity() throws IOException
-    {
-    }
+    RecyclerView binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //final ActivityMainBinding mainActivityBinding = DataBindingUtil
         setContentView(R.layout.activity_main);
 
-        //Check network/wifi for data processing
-        if (isNetworkAvailable())
+        Init();//Start data upload and network connection
+
+    }
+
+    private void Init()
+    {
+        binding = (RecyclerView) findViewById(R.id.recycler); // Get the recycler view
+        binding.setLayoutManager(new LinearLayoutManager(this));
+        Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
+
+        if (isNetworkAvailable()) // Check for internet
         {
-            getData();
+            getData("puma"); //Use this later with searching data
         } else
         {
             alertAboutERROR();
         }
-        //final ActivityMainBinding mainActivityBinding
     }
 
-    private void getData()
+    private void getData(String search)
     {
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
                 .build();
 
         IService service = retrofit.create(IService.class);
-        Call<Results> call = service.productList("nike", IService.API_KEY);
+        Call<Results> call = service.productList(search, IService.API_KEY);
         call.enqueue(new Callback<Results>()
         {
 
@@ -79,14 +80,8 @@ public class MainActivity extends AppCompatActivity
                     if (response.isSuccessful())
                     {
                         Results responseData = response.body();
-                        //int results = response.body().returnProducts().size();
-                        linearLayoutManager = new LinearLayoutManager(MainActivity.this);
-                        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler);
-                        recyclerView.setLayoutManager(linearLayoutManager);
-                        AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData, MainActivity.this);
-                        recyclerView.setAdapter(adapterRecyclerView);
-                        //mainActivityBinding.setProducts(responseData.returnProducts().get(p));
-                        //System.out.print(responseData.returnProducts().get(p));
+                        AdapterRecyclerView adapterRecyclerView = new AdapterRecyclerView(responseData);
+                        binding.setAdapter(adapterRecyclerView);
                     }
 
                 } catch (JsonIOException e)
@@ -103,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    //Check if device has network
+    /* Check if device has network */
     private boolean isNetworkAvailable()
     {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -113,7 +108,7 @@ public class MainActivity extends AppCompatActivity
         return isAvailable;
     }
 
-    //Display error
+    /* Display error */
     private void alertAboutERROR()
     {
         DialogAlert alertFrag = new DialogAlert();

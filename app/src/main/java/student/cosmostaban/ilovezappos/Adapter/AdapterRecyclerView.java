@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import student.cosmostaban.ilovezappos.BR;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,25 +23,28 @@ import student.cosmostaban.ilovezappos.Models.Results;
 import student.cosmostaban.ilovezappos.R;
 import student.cosmostaban.ilovezappos.ViewHolder.ViewRecycler;
 
+import static com.android.databinding.library.baseAdapters.BR._all;
+
+
+//Try with Observer views to make the data display
 
 public class AdapterRecyclerView extends RecyclerView.Adapter<ViewRecycler>
 {
 
     //This data comes from the server
     private Results results;
-    private Context mContext;
 
-    public AdapterRecyclerView(Results results, Context context)
+    public AdapterRecyclerView(Results results)
     {
         this.results = results;
-        this.mContext = context;
     }
 
 
     @Override
     public ViewRecycler onCreateViewHolder(ViewGroup parent, int viewType)
     {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_row_xml, null);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycler_row_xml, null);
         ViewRecycler viewRecycler = new ViewRecycler(view); //This inflates the view
         return viewRecycler; // Return the object created.
     }
@@ -48,19 +52,9 @@ public class AdapterRecyclerView extends RecyclerView.Adapter<ViewRecycler>
     @Override
     public void onBindViewHolder(ViewRecycler holder, int position)
     {
-        ArrayList<Products> mItem = results.returnProducts();
-        if (!TextUtils.isEmpty(mItem.get(position).getThumbnailImageUrl()))
-        {
-            Picasso.with(mContext).load(mItem.get(position).getThumbnailImageUrl())
-                    .error(R.drawable.placeholder)
-                    .placeholder(R.drawable.placeholder)
-                    .into(holder.thumbUrl);
-        }
-        holder.brandName.setText(mItem.get(position).getBrandName());
-        holder.productName.setText(mItem.get(position).getProductName());
-        holder.productPrice.setText(mItem.get(position).getPrice());
-
-
+        final Products products = results.returnProducts().get(position);
+        holder.getBinding().setVariable(BR.products, products);
+        holder.getBinding().executePendingBindings();
     }
 
     @Override
